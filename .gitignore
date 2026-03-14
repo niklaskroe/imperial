@@ -1,0 +1,28 @@
+# Build output
+build/
+compile_commands.json
+
+# Installer output
+dist/
+installer/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+DerivedData/
+
+# CLion / JetBrains
+.idea/
+cmake-build-*/
+
+# VSCode
+.vscode/
+
+# Cache
+.cache/
