@@ -108,21 +108,21 @@ mkdir -p "$PKGS"
 
 pkgbuild \
     --root "$STAGING/vst3" \
-    --identifier "com.opencode.imperial.vst3" \
+    --identifier "com.niklaskroe.imperial.vst3" \
     --version "$VERSION" \
     --install-location "/" \
     "$PKGS/Imperial-VST3.pkg"
 
 pkgbuild \
     --root "$STAGING/au" \
-    --identifier "com.opencode.imperial.au" \
+    --identifier "com.niklaskroe.imperial.au" \
     --version "$VERSION" \
     --install-location "/" \
     "$PKGS/Imperial-AU.pkg"
 
 pkgbuild \
     --root "$STAGING/app" \
-    --identifier "com.opencode.imperial.app" \
+    --identifier "com.niklaskroe.imperial.app" \
     --version "$VERSION" \
     --install-location "/" \
     "$PKGS/Imperial-Standalone.pkg"
@@ -154,22 +154,22 @@ cat > "$DIST_XML" <<XML
 
     <choice id="vst3" title="VST3 Plugin"
             description="Installs Imperial.vst3 to /Library/Audio/Plug-Ins/VST3">
-        <pkg-ref id="com.opencode.imperial.vst3"/>
+        <pkg-ref id="com.niklaskroe.imperial.vst3"/>
     </choice>
 
     <choice id="au" title="Audio Unit (AU) Plugin"
             description="Installs Imperial.component to /Library/Audio/Plug-Ins/Components">
-        <pkg-ref id="com.opencode.imperial.au"/>
+        <pkg-ref id="com.niklaskroe.imperial.au"/>
     </choice>
 
     <choice id="app" title="Standalone App"
             description="Installs Imperial.app to /Applications">
-        <pkg-ref id="com.opencode.imperial.app"/>
+        <pkg-ref id="com.niklaskroe.imperial.app"/>
     </choice>
 
-    <pkg-ref id="com.opencode.imperial.vst3"  version="$VERSION">Imperial-VST3.pkg</pkg-ref>
-    <pkg-ref id="com.opencode.imperial.au"    version="$VERSION">Imperial-AU.pkg</pkg-ref>
-    <pkg-ref id="com.opencode.imperial.app"   version="$VERSION">Imperial-Standalone.pkg</pkg-ref>
+    <pkg-ref id="com.niklaskroe.imperial.vst3"  version="$VERSION">Imperial-VST3.pkg</pkg-ref>
+    <pkg-ref id="com.niklaskroe.imperial.au"    version="$VERSION">Imperial-AU.pkg</pkg-ref>
+    <pkg-ref id="com.niklaskroe.imperial.app"   version="$VERSION">Imperial-Standalone.pkg</pkg-ref>
 
 </installer-gui-script>
 XML

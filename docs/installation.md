@@ -16,7 +16,7 @@
    cp -r Imperial.vst3 ~/Library/Audio/Plug-Ins/VST3/
    ```
 
-3. Restart your DAW. Imperial should appear in the plug-in list under **OpenCode > Imperial**.
+3. Restart your DAW. Imperial should appear in the plug-in list under **niklaskroe > Imperial**.
 
 > **Note:** On first launch macOS may quarantine the bundle. If your DAW shows a "cannot be opened" error, run:
 > ```sh
@@ -39,7 +39,7 @@
    killall -9 AudioComponentRegistrar
    ```
 
-3. Open your DAW. In Logic Pro the plug-in appears under **Audio Units > OpenCode > Imperial**.
+3. Open your DAW. In Logic Pro the plug-in appears under **Audio Units > niklaskroe > Imperial**.
 
 > If the plug-in does not appear after a DAW restart, run `auval` to verify registration:
 > ```sh
