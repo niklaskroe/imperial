@@ -36,6 +36,7 @@ void PreampStage::reset()
 }
 
 // Gain knob 1-10 → 0–36 dB (exponential feel)
+// TODO: update mapping for new 0-11 range — clamp knob to 10 before normalising so 10-11 is a dead zone with no extra gain
 void PreampStage::setGain (float knob)
 {
     // Map 1-10 to 0-36 dB with slight exponential curve so lower values feel usable

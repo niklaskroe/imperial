@@ -9,6 +9,8 @@ ImperialProcessor::createParameterLayout()
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
 
     // All "knob" controls use 1-10 range like a real amp
+    // TODO: change all knob ranges from 1-10 to 0-10 (update NormalisableRange and the norm lambda in updateParametersFromAPVTS)
+    // TODO: extend gain knob range to 0-11; clamp DSP input at 10 in PreampStage::setGain so 10-11 produces no additional gain change
     params.push_back (std::make_unique<juce::AudioParameterFloat> (
         "gain", "Gain", juce::NormalisableRange<float> (1.0f, 10.0f, 0.1f), 4.0f));
 
