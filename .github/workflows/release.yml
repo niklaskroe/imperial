@@ -5,6 +5,9 @@ on:
     tags:
       - "v*"
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build & publish installer
@@ -16,7 +19,15 @@ jobs:
         uses: actions/checkout@v4
 
       # ── Dependencies ─────────────────────────────────────────────────────────
+      - name: Cache JUCE
+        id: cache-juce
+        uses: actions/cache@v4
+        with:
+          path: ~/JUCE
+          key: juce-8.0.4
+
       - name: Install JUCE
+        if: steps.cache-juce.outputs.cache-hit != 'true'
         run: |
           git clone --depth 1 --branch 8.0.4 \
             https://github.com/juce-framework/JUCE.git ~/JUCE
@@ -31,9 +42,7 @@ jobs:
       # ── Package ───────────────────────────────────────────────────────────────
       - name: Create installer
         run: |
-          # Skip the cmake build step inside package.sh — we just built above.
-          # Stage, pkgbuild and productbuild only.
-          VERSION="${GITHUB_REF_NAME#v}"   # strip leading "v" from tag
+          VERSION="${GITHUB_REF_NAME#v}"
           PRODUCT="Imperial"
           ARTEFACTS="build/Imperial_artefacts/Release"
           STAGING="build/pkg_staging"
@@ -46,54 +55,29 @@ jobs:
           AU_STAGE="$STAGING/au/Library/Audio/Plug-Ins/Components"
           APP_STAGE="$STAGING/app/Applications"
           mkdir -p "$VST3_STAGE" "$AU_STAGE" "$APP_STAGE"
-          cp -R "$ARTEFACTS/VST3/$PRODUCT.vst3"                "$VST3_STAGE/"
-          cp -R "$ARTEFACTS/AU/$PRODUCT.component"             "$AU_STAGE/"
-          cp -R "$ARTEFACTS/Standalone/$PRODUCT.app"           "$APP_STAGE/"
+          cp -R "$ARTEFACTS/VST3/$PRODUCT.vst3"      "$VST3_STAGE/"
+          cp -R "$ARTEFACTS/AU/$PRODUCT.component"   "$AU_STAGE/"
+          cp -R "$ARTEFACTS/Standalone/$PRODUCT.app" "$APP_STAGE/"
 
           # Component packages
           pkgbuild --root "$STAGING/vst3" \
-                   --identifier "com.opencode.imperial.vst3" \
+                   --identifier "com.niklaskroe.imperial.vst3" \
                    --version "$VERSION" --install-location "/" \
                    "$PKGS/Imperial-VST3.pkg"
 
           pkgbuild --root "$STAGING/au" \
-                   --identifier "com.opencode.imperial.au" \
+                   --identifier "com.niklaskroe.imperial.au" \
                    --version "$VERSION" --install-location "/" \
                    "$PKGS/Imperial-AU.pkg"
 
           pkgbuild --root "$STAGING/app" \
-                   --identifier "com.opencode.imperial.app" \
+                   --identifier "com.niklaskroe.imperial.app" \
                    --version "$VERSION" --install-location "/" \
                    "$PKGS/Imperial-Standalone.pkg"
 
-          # Distribution XML
-          cat > build/distribution.xml <<XML
-          <?xml version="1.0" encoding="utf-8"?>
-          <installer-gui-script minSpecVersion="2">
-            <title>Imperial $VERSION</title>
-            <options require-scripts="false" customize="always" />
-            <choices-outline>
-              <line choice="vst3"/>
-              <line choice="au"/>
-              <line choice="app"/>
-            </choices-outline>
-            <choice id="vst3" title="VST3 Plugin"
-                    description="Installs Imperial.vst3 to /Library/Audio/Plug-Ins/VST3">
-              <pkg-ref id="com.opencode.imperial.vst3"/>
-            </choice>
-            <choice id="au" title="Audio Unit (AU) Plugin"
-                    description="Installs Imperial.component to /Library/Audio/Plug-Ins/Components">
-              <pkg-ref id="com.opencode.imperial.au"/>
-            </choice>
-            <choice id="app" title="Standalone App"
-                    description="Installs Imperial.app to /Applications">
-              <pkg-ref id="com.opencode.imperial.app"/>
-            </choice>
-            <pkg-ref id="com.opencode.imperial.vst3" version="$VERSION">Imperial-VST3.pkg</pkg-ref>
-            <pkg-ref id="com.opencode.imperial.au"   version="$VERSION">Imperial-AU.pkg</pkg-ref>
-            <pkg-ref id="com.opencode.imperial.app"  version="$VERSION">Imperial-Standalone.pkg</pkg-ref>
-          </installer-gui-script>
-          XML
+          # Stamp version into distribution XML template
+          sed "s/IMPERIAL_VERSION/$VERSION/g" \
+            installer/distribution.xml > build/distribution.xml
 
           productbuild \
             --distribution build/distribution.xml \

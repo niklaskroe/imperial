@@ -4,7 +4,8 @@ compile_commands.json
 
 # Installer output
 dist/
-installer/
+installer/*.rtf
+installer/*.png
 
 # macOS
 .DS_Store
