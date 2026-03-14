@@ -52,3 +52,9 @@ See [docs/building.md](docs/building.md) for prerequisites and options.
 - [docs/ir-loader.md](docs/ir-loader.md) — using the cabinet IR loader
 - [docs/building.md](docs/building.md) — build instructions
 - [docs/installation.md](docs/installation.md) — installation instructions
+
+## License
+
+This project is licensed under the **GNU General Public License v3.0**. See [LICENSE](LICENSE) for the full text.
+
+This project uses [JUCE](https://juce.com), which is also licensed under the GPL-3.0 for open-source use.
