@@ -4,6 +4,9 @@ A guitar amp simulator JUCE plugin modelled after the Tone King Imperial MkII â€
 
 Built with JUCE. Formats: **VST3**, **AU**, **Standalone**. macOS only.
 
+> [!IMPORTANT]
+> Modelling might not be accurate as this was a short and fast project. Feedback & help appreciated via [Issues](https://github.com/niklaskroe/imperial/issues/new) or [Pull Requests](https://github.com/niklaskroe/imperial/pulls).
+
 ## Controls
 
 All knobs run **1â€“10**, like a real amp.
